@@ -4,20 +4,22 @@ const { expect } = require('chai')
 describe('/users/register', () => {
     context('POST', () => {
         it('deve cadastrar um usuário com sucesso', async () => {
-            const resposta = await request('http://localhost:3000')
-                .post('/users/register')
-                .send({
-                    login: 'ash_ketchum',
-                    password: '1234567',
-                    nickname: 'NovoUser',
-                    sex: 'M',
-                    initialPokemon: 1
-                })
+            const dynamicLogin = `ash_${Date.now()}`; // Cria um login único baseado no tempo atual
 
-            expect(resposta.status).to.equal(201)
-            expect(resposta.body).to.have.property('token')   
-            expect(resposta.body).to.have.property('user')
-        })
+    const resposta = await request('http://localhost:3000')
+      .post('/users/register')
+      .send({
+        login: dynamicLogin, // Usa o login dinâmico aqui
+        password: '1234567',
+        nickname: 'NovoUser',
+        sex: 'M',
+        initialPokemon: 1
+      })
+      
+    expect(resposta.status).to.equal(201)
+    expect(resposta.body).to.have.property('token')
+    expect(resposta.body).to.have.property('user')
+  })
 
         it('deve retornar erro quando informo um login já registrado', async () => {
             const resposta = await request('http://localhost:3000')

@@ -13,7 +13,7 @@ describe('/pokemons', () => {
 
     context('GET', () => {
         it('deve obter a lista de pokémons do treinador', async () => {
-            const resposta = await request(process.env.REST_BASE_URL)
+            const resposta = await request(process.env.REST_BASE_URL || 'http://localhost:3000')
                 .get('/pokemons')
                 .set('Authorization', `Bearer ${token}`)
 
